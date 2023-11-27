@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
+      integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"
+      integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+      integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="./CSS/style.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//use.fontawesome.com/releases/v5.7.2/css/all.css"
+    />
+  </head>
+
+  <body onload="displayPhotos()">
+    <div class="container">
+      <h3 class="pt-3 fw-lighter">Photo Gallery</h3>
+      <div class="container bg-white p-3 rounded-top-5">
+        <div class="row align-items-center">
+          <div class="col-lg-4">
+            <div class="search ps-4">
+              <i class="fa fa-search"></i>
+              <input
+                type="text"
+                id="search"
+                onkeyup="onSearch(event)"
+                class="form-control fw-medium bg-body-tertiary"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+          <div
+            class="align-items-center col-lg-8 d-flex flex-wrap justify-content-end custom-class-nav"
+          >
+            <div class="pe-4">
+              <button
+                class="border rounded shadow p-2 px-3 bg-white upload-btn"
+                onclick="onDeleteAll()"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            <div class="pe-4">
+              <ul
+                class="bg-body-secondary nav nav-pills shadow rounded px-2 py-1"
+                id="pills-tab"
+                role="tablist"
+              >
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active"
+                    id="card-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-home"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-home"
+                    aria-selected="true"
+                  >
+                    <i class="fa-solid fa-table-cells"></i>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="list-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-profile"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-profile"
+                    aria-selected="false"
+                  >
+                    <i class="fa-solid fa-bars"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="pe-4 upload-btn">
+              <button
+                type="button"
+                class="btn btn-primary fs-5 px-3"
+                data-bs-toggle="modal"
+                href="#exampleModalToggle"
+              >
+                Upload file
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- card area -->
+      <div
+        class="container bg-white p-5 pt-0 rounded-bottom-5"
+        id="cart-contain"
+      >
+        <div class="row" id="cart-container">
+          <!-- dispaly data into main page -->
+        </div>
+      </div>
+      <!-- table area -->
+      <div class="container bg-white p-5 rounded-bottom-5" id="table-container">
+        <div class="row table-responsive">
+          <table class="table table-image table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="">Name</th>
+                <th scope="col" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-none">
+                <td class="d-flex align-items-center w-100">
+                  <div>
+                    <img
+                      src="./IMG/1.jpg"
+                      id="small-image"
+                      class="rounded img-fluid"
+                      alt="Sheep"
+                    />
+                  </div>
+                  <div class="ms-4">
+                    <span class="text-secondary fw-bold">Name of file</span>
+                    <span class="d-block text-secondary fw-bold">2mb</span>
+                  </div>
+                </td>
+                <td class="pt-3 text-center">
+                  <button class="btn btn-light">Preview</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal area -->
+    <div
+      class="modal fade"
+      id="exampleModalToggle"
+      aria-hidden="true"
+      aria-labelledby="exampleModalToggleLabel"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="text-center fs-5 fw-bold" id="exampleModalToggleLabel">
+              Multiple File Upload with Previwe
+            </h1>
+            <button
+              type="button"
+              id="closeBtn"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body p-5 pb-5 border-0">
+            <div class="wrapper">
+              <div class="box">
+                <div class="input-bx">
+                  <form action="#" id="form" onsubmit="event.preventDefault()">
+                    <input
+                      type="file"
+                      hidden
+                      multiple
+                      id="upload"
+                      accept=".png, .jpg, .jpeg"
+                    />
+                    <label for="upload" class="uploadlabel bg-body-secondary">
+                      <span class="text-secondary"
+                        >Click To Upload
+                        <u class="text-dark"> Choose Your File</u></span
+                      >
+                    </label>
+                  </form>
+                </div>
+                <h3 class="uploaded">Uploaded Photos</h3>
+                <div class="filewrapper" id="displayedImage">
+                  <!-- here is dispaly images which is select by user -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button class="btn btn-primary" id="upload-btn">Upload</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- model for thumbnail -->
+    <div
+      class="modal fade"
+      id="exampleModalToggle4"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div id="myProgress">
+        <div id="myBar"></div>
+      </div>
+
+      <div class="modal-dialog modal-fullscreen" id="thumbnailgrid"></div>
+    </div>
+    <script src="./JS/script.js"></script>
+  </body>
+</html>
